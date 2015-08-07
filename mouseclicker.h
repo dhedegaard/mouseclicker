@@ -2,4 +2,3 @@
 
 int do_click();
 void handle_input();
-bool is_number(const std::string& s);
