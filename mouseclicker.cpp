@@ -98,11 +98,11 @@ int do_click() {
     }
 
     // Send messages to the window handle, using the position calculated.
-    if (!PostMessage(hwndWindow, WM_LBUTTONDOWN, nullptr, position)) {
+    if (!PostMessage(hwndWindow, WM_LBUTTONDOWN, NULL, position)) {
         std::cerr << "Failed to PostMessage()" << std::endl;
         return 0;
     }
-    PostMessage(hwndWindow, WM_LBUTTONUP, nullptr, position);
+    PostMessage(hwndWindow, WM_LBUTTONUP, NULL, position);
     return 0;
 }
 
