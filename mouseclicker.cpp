@@ -14,7 +14,8 @@ static bool quit = false;
 
 int main(int argc, char **argv) {
     // Introduction
-    std::cout << "To pause, press ENTER. To quit, press ESCAPE" << std::endl;
+    std::cout << "To pause, press ENTER/SPACE. To quit, press ESCAPE"
+              << std::endl;
 
     // Get stdin for peeking later.
     stdin = GetStdHandle(STD_INPUT_HANDLE);
@@ -92,6 +93,7 @@ void handle_input() {
     if (input.Event.KeyEvent.bKeyDown) {
         switch(input.Event.KeyEvent.wVirtualKeyCode) {
         case 13:  // VK_ENTER
+        case 32:  // VK_SPACE
             paused = !paused;
             if (paused) {
                 std::cout << "paused" << std::endl;
