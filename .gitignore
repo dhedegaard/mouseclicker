@@ -33,7 +33,6 @@ ltmain.sh
 mkinstalldirs
 config.guess
 config.sub
-Makefile
 Makefile.in
 *CMakeCache.txt
 *CMakeFiles
