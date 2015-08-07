@@ -6,6 +6,6 @@ Always nice to mess around with the win32 api.
 
 Should be buildable on most modern C++ compilers, including:
 
-- mingw
+- mingw gcc 4.8.1
 - Visual C++ 14.0
 - clang 3.5
