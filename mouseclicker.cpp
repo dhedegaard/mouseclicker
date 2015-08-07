@@ -5,7 +5,10 @@
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 
-#include "mouseclicker.h"
+#define DEFAULT_SLEEP_INTERVAL 25
+
+int do_click();
+void handle_input();
 
 static HWND hwndWindow;
 static RECT rcWindow;
