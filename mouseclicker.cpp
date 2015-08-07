@@ -1,4 +1,6 @@
 #include <iostream>
+#include <cstdio>
+#include <cstdlib>
 
 #include <windows.h>
 
@@ -7,19 +9,42 @@
 static HWND hwndWindow;
 static RECT rcWindow;
 static LPARAM position;
-static HANDLE stdin;
+static HANDLE _stdin;
 static DWORD from_stdin;
 static bool paused = false;
 static bool quit = false;
+static long sleep_interval = SLEEP;
 
 int main(int argc, char **argv) {
+    // Handle getting sleep interval from args, if applicable.
+    if (argc == 2) {
+        /* If an argument was supplied, it should be the number of
+           milliseconds to sleep. */
+        sleep_interval = strtol(argv[1], NULL, 10);
+
+        if (sleep_interval <= 1) {
+            // Fail if below 0 or equal to 1 ms.
+            std::cerr << "Sleep too low: " << sleep_interval << std::endl;
+            return 1;
+        } else {
+            // Otherwise notify the user of success.
+            std::cout << "Sleep supplied, will sleep " << sleep_interval
+                      << " ms between clicks" << std::endl;
+        }
+    } else {
+        // Otherwise notify the user of the default interval.
+        std::cout << "No parameter supplied, will use default sleep "
+                  << "interval of " << sleep_interval
+                  << " ms between clicks." << std::endl;
+    }
+
     // Introduction
     std::cout << "To pause, press ENTER/SPACE. To quit, press ESCAPE"
               << std::endl;
 
     // Get stdin for peeking later.
-    stdin = GetStdHandle(STD_INPUT_HANDLE);
-    if (stdin == NULL) {
+    _stdin = GetStdHandle(STD_INPUT_HANDLE);
+    if (_stdin == NULL) {
         std::cerr << "Uanble to get stdin" << std::endl;
         return 1;
     }
@@ -41,7 +66,7 @@ int main(int argc, char **argv) {
         }
 
         // Sleep.
-        from_stdin = WaitForSingleObject(stdin, 25);
+        from_stdin = WaitForSingleObject(_stdin, sleep_interval);
         // If we encounter any input from the wait, handle it.
         if (from_stdin == WAIT_OBJECT_0) {
             handle_input();
@@ -87,7 +112,7 @@ void handle_input() {
     DWORD number_of_inputs = 0;
 
     // Fetch the input from stdin.
-    ReadConsoleInput(stdin, &input, 1, &number_of_inputs);
+    ReadConsoleInput(_stdin, &input, 1, &number_of_inputs);
 
     // Check for specific keypresses.
     if (input.Event.KeyEvent.bKeyDown) {
@@ -109,5 +134,13 @@ void handle_input() {
     }
 
     // Flush stdin, and wait for new input.
-    FlushConsoleInputBuffer(stdin);
+    FlushConsoleInputBuffer(_stdin);
+}
+
+bool is_number(const std::string& s) {
+    std::string::const_iterator it = s.begin();
+    while (it != s.end() && std::isdigit(*it)) {
+        ++it;
+    }
+    return !s.empty() && it == s.end();
 }
