@@ -147,7 +147,4 @@ void handle_input() {
             break;
         }
     }
-
-    // Flush stdin, and wait for new input.
-    FlushConsoleInputBuffer(_stdin);
 }
