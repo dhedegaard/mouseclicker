@@ -94,7 +94,7 @@ int do_click() {
         (LONG) ((double) (rcWindow.bottom - rcWindow.top) * 0.5)
     );
     if (position == 0) {
-        std::cerr << "Position is NULL!" << std::cerr;
+        std::cerr << "Position is NULL!" << std::endl;
         return 1;
     }
 
