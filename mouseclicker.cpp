@@ -51,7 +51,7 @@ int main(int argc, char **argv) {
     }
 
     // Fetch the window handle.
-    hwndWindow = FindWindow(NULL, "Clicker Heroes");
+    hwndWindow = FindWindowA(NULL, "Clicker Heroes");
     if (hwndWindow == NULL) {
         std::cerr << "Unable to get window handle! Is the application running ?"
                   << std::endl;
