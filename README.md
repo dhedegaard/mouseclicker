@@ -9,3 +9,5 @@ Should be buildable on most modern C++ compilers, including:
 - mingw gcc 4.8.1
 - Visual C++ 14.0
 - clang 3.5
+
+Released binaries can be found [here](https://github.com/dhedegaard/mouseclicker/releases)
