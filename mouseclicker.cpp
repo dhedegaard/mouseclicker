@@ -2,13 +2,13 @@
 #include <cstdio>
 #include <cstdlib>
 
-#define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 
 #define DEFAULT_SLEEP_INTERVAL 25
 
 int do_click();
 void handle_input();
+void do_sleep();
 
 static HWND hwndWindow;
 static RECT rcWindow;
@@ -17,7 +17,7 @@ static HANDLE _stdin;
 static DWORD from_stdin;
 static bool paused = false;
 static bool quit = false;
-static long sleep_interval = DEFAULT_SLEEP_INTERVAL;
+static unsigned long sleep_interval = DEFAULT_SLEEP_INTERVAL;
 
 int main(int argc, char **argv) {
     // Handle getting sleep interval from args, if applicable.
@@ -69,12 +69,7 @@ int main(int argc, char **argv) {
             }
         }
 
-        // Sleep.
-        from_stdin = WaitForSingleObject(_stdin, sleep_interval);
-        // If we encounter any input from the wait, handle it.
-        if (from_stdin == WAIT_OBJECT_0) {
-            handle_input();
-        }
+        do_sleep();
     }
 
     // Notify the user that we're all done.
@@ -108,6 +103,22 @@ int do_click() {
     }
     PostMessage(hwndWindow, WM_LBUTTONUP, NULL, position);
     return 0;
+}
+
+void do_sleep() {
+    // Sleep.
+    DWORD before_sleep = timeGetTime();
+    from_stdin = WaitForSingleObject(_stdin, sleep_interval);
+    // If we encounter any input from the wait, handle it.
+    if (from_stdin == WAIT_OBJECT_0) {
+        handle_input();
+    }
+
+    // Check to see if we need to sleep further, if so do Sleep().
+    DWORD diff_ms = timeGetTime() - before_sleep;
+    if (diff_ms < sleep_interval) {
+        Sleep(sleep_interval - diff_ms);
+    }
 }
 
 // Handles input form stdin.

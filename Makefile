@@ -1,7 +1,7 @@
 all: build
 
 build:
-	g++ mouseclicker.cpp -o mouseclicker.exe -g -Wall
+	g++ mouseclicker.cpp -lwinmm -o mouseclicker.exe -g -Wall
 
 run:
 	mouseclicker.exe
