@@ -13,7 +13,7 @@ static HANDLE _stdin;
 static DWORD from_stdin;
 static bool paused = false;
 static bool quit = false;
-static long sleep_interval = SLEEP;
+static long sleep_interval = DEFAULT_SLEEP_INTERVAL;
 
 int main(int argc, char **argv) {
     // Handle getting sleep interval from args, if applicable.
