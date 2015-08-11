@@ -106,15 +106,13 @@ int do_click() {
 }
 
 void do_sleep() {
-    // Sleep.
+    // Get the time before the sleep.
     DWORD before_sleep = timeGetTime();
-    from_stdin = WaitForSingleObject(_stdin, sleep_interval);
-    // If we encounter any input from the wait, handle it.
-    if (from_stdin == WAIT_OBJECT_0) {
-        handle_input();
-    }
 
-    // Check to see if we need to sleep further, if so do Sleep().
+    // Handle input (if any).
+    handle_input();
+
+    // Do sleep.
     DWORD diff_ms = timeGetTime() - before_sleep;
     if (diff_ms < sleep_interval) {
         Sleep(sleep_interval - diff_ms);
@@ -124,27 +122,36 @@ void do_sleep() {
 // Handles input form stdin.
 void handle_input() {
     INPUT_RECORD input;
-    DWORD number_of_inputs = 0;
+    DWORD number_of_events = 0;
 
-    // Fetch the input from stdin.
-    ReadConsoleInput(_stdin, &input, 1, &number_of_inputs);
+    // While fetching the number of events do not fail.
+    while (GetNumberOfConsoleInputEvents(_stdin, &number_of_events)) {
 
-    // Check for specific keypresses.
-    if (input.Event.KeyEvent.bKeyDown) {
-        switch(input.Event.KeyEvent.wVirtualKeyCode) {
-        case 13:  // VK_ENTER
-        case 32:  // VK_SPACE
-            paused = !paused;
-            if (paused) {
-                std::cout << "paused" << std::endl;
-            } else {
-                std::cout << "unpaused" << std::endl;
+        // Stop if there are no events to handle.
+        if (number_of_events <= 0) {
+            break;
+        }
+
+        // Fetch an event from the input.
+        ReadConsoleInput(_stdin, &input, 1, &number_of_events);
+
+        // Check for specific keypresses.
+        if (input.Event.KeyEvent.bKeyDown) {
+            switch(input.Event.KeyEvent.wVirtualKeyCode) {
+            case 13:  // VK_ENTER
+            case 32:  // VK_SPACE
+                paused = !paused;
+                if (paused) {
+                    std::cout << "paused" << std::endl;
+                } else {
+                    std::cout << "clicking" << std::endl;
+                }
+                break;
+            case 27:  // VK_ESCAPE
+                quit = true;
+                std::cout << "quitting!" << std::endl;
+                break;
             }
-            break;
-        case 27:  // VK_ESCAPE
-            quit = true;
-            std::cout << "quitting!" << std::endl;
-            break;
         }
     }
 }
