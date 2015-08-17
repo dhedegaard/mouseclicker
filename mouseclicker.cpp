@@ -14,7 +14,6 @@ static HWND hwndWindow;
 static RECT rcWindow;
 static LPARAM position;
 static HANDLE _stdin;
-static DWORD from_stdin;
 static bool paused = false;
 static bool quit = false;
 static unsigned long sleep_interval = DEFAULT_SLEEP_INTERVAL;
