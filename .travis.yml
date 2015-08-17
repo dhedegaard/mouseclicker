@@ -11,4 +11,4 @@ before_install:
 script:
  - i586-mingw32msvc-g++ mouseclicker.cpp -o mouseclicker.exe -g -Wall -lwinmm
  - file -i mouseclicker.exe
- - wine mouseclicker.exe
+ - WINDEBUG=fixme-all wine mouseclicker.exe
