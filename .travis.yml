@@ -3,6 +3,9 @@ language: cpp
 compiler:
  - gcc
 
+before-script:
+ - apt-get update && apt-get install -y wine
+
 script:
  - i586-mingw32msvc-g++ mouseclicker.cpp -o mouseclicker.exe -g -Wall -lwinmm
  - file -i mouseclicker.exe
