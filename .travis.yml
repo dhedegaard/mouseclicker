@@ -1,10 +1,12 @@
 language: cpp
 
+sudo: required
+
 compiler:
  - gcc
 
 before_install:
- - apt-get update && apt-get install -y wine
+ - sudo apt-get update && sudo apt-get install -y wine
 
 script:
  - i586-mingw32msvc-g++ mouseclicker.cpp -o mouseclicker.exe -g -Wall -lwinmm
