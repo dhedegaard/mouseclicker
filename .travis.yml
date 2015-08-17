@@ -1,0 +1,10 @@
+language: cpp
+
+compiler:
+ - gcc
+
+before-install:
+ - sudo apt-get update && apt-get install -y mingw32
+
+script:
+ - i586-mingw32msvc-g++ mouseclicker.cpp -o mouseclicker.exe -g -Wall -lwinmm
