@@ -170,6 +170,7 @@ void handle_input() {
                 std::cout << "Increased sleep interval to "
                           << sleep_interval << std::endl;
                 break;
+            }
         }
     }
 }
