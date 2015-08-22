@@ -1,0 +1,4 @@
+mouseclicker:
+  build .
+  volumes:
+    - .:.:rw
