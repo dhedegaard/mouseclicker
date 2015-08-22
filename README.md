@@ -11,5 +11,8 @@ Should be buildable on most modern C++ compilers, including:
 - mingw gcc 4.8.1
 - Visual C++ 14.0
 - clang 3.5
+- Using mingw through the docker image from
+  [here](https://hub.docker.com/r/dhedegaard/mouseclicker/)
+  or by building the image from the repo.
 
 Released binaries can be found [here](https://github.com/dhedegaard/mouseclicker/releases)
