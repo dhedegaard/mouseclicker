@@ -29,16 +29,7 @@ int main(int argc, char **argv) {
             // Fail if below 0 or equal to 1 ms.
             std::cerr << "Sleep too low: " << sleep_interval << std::endl;
             return 1;
-        } else {
-            // Otherwise notify the user of success.
-            std::cout << "Sleep supplied, will sleep " << sleep_interval
-                      << " ms between clicks" << std::endl;
         }
-    } else {
-        // Otherwise notify the user of the default interval.
-        std::cout << "No parameter supplied, will use default sleep "
-                  << "interval of " << sleep_interval
-                  << " ms between clicks." << std::endl;
     }
 
     // Introduction
@@ -47,7 +38,8 @@ int main(int argc, char **argv) {
               << "ESCAPE/Q:       Exit" << std::endl
               << "UP:             Decrease sleep interval by 1 ms" << std::endl
               << "DOWN:           Increase sleet interval by 1 ms" << std::endl
-              << std::endl;
+              << std::endl
+              << "Sleep interval is: " << sleep_interval << " ms" << std::endl;
 
     // Get stdin for peeking later.
     _stdin = GetStdHandle(STD_INPUT_HANDLE);
@@ -64,6 +56,7 @@ int main(int argc, char **argv) {
         return 1;
     }
 
+    std::cout << "clicking" << std::endl;
     while (!quit) {
         // While we're not paused and do_click returns nothing, continue.
         if (!paused) {
