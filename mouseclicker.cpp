@@ -169,10 +169,7 @@ void handle_input() {
                 sleep_interval++;
                 std::cout << "Increased sleep interval to "
                           << sleep_interval << std::endl;
-            default:
-                std::cout << input.Event.KeyEvent.wVirtualKeyCode << std::endl;
                 break;
-            }
         }
     }
 }
