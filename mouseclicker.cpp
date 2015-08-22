@@ -68,8 +68,7 @@ int main(int argc, char **argv) {
         do_sleep();
     }
 
-    // Notify the user that we're all done.
-    std::cout << "All done!" << std::endl;
+    // All done!
     return 0;
 }
 
