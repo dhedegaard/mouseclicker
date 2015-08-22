@@ -1,4 +1,4 @@
 mouseclicker:
-  build .
+  build: .
   volumes:
-    - .:.:rw
+    - .:/build
