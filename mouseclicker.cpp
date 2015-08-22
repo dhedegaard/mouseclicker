@@ -42,7 +42,11 @@ int main(int argc, char **argv) {
     }
 
     // Introduction
-    std::cout << "To pause, press ENTER/SPACE. To quit, press ESCAPE"
+    std::cout << "Mouse Clicker, keybinds are as follows:" << std::endl
+              << "ENTER/SPACE:    Pause" << std::endl
+              << "ESCAPE/Q:       Exit" << std::endl
+              << "UP:             Decrease sleep interval by 1 ms" << std::endl
+              << "DOWN:           Increase sleet interval by 1 ms" << std::endl
               << std::endl;
 
     // Get stdin for peeking later.
@@ -147,8 +151,26 @@ void handle_input() {
                 }
                 break;
             case 27:  // VK_ESCAPE
+            case 81:  // VK_Q
                 quit = true;
                 std::cout << "quitting!" << std::endl;
+                break;
+            case 38:  // VK_UP
+                if (sleep_interval > 1) {
+                    sleep_interval--;
+                    std::cout << "Decreased sleep interval to "
+                              << sleep_interval << std::endl;
+                } else {
+                    std::cout << "ERROR: Unable to decrease interval below 1 ms"
+                              << std::endl;
+                }
+                break;
+            case 40:  // VK_DOWN
+                sleep_interval++;
+                std::cout << "Increased sleep interval to "
+                          << sleep_interval << std::endl;
+            default:
+                std::cout << input.Event.KeyEvent.wVirtualKeyCode << std::endl;
                 break;
             }
         }
