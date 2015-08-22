@@ -33,11 +33,11 @@ int main(int argc, char **argv) {
     }
 
     // Introduction
-    std::cout << "Mouse Clicker, keybinds are as follows:" << std::endl
+    std::cout << "Keybinds are as follows:" << std::endl
               << "ENTER/SPACE:    Pause" << std::endl
               << "ESCAPE/Q:       Exit" << std::endl
               << "UP:             Decrease sleep interval by 1 ms" << std::endl
-              << "DOWN:           Increase sleet interval by 1 ms" << std::endl
+              << "DOWN:           Increase sleep interval by 1 ms" << std::endl
               << std::endl
               << "Sleep interval is: " << sleep_interval << " ms" << std::endl;
 
