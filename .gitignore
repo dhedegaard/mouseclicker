@@ -53,5 +53,5 @@ javadoc
 *.sublime-workspace
 
 mouseclicker
-mouseclicker.exe
+mouseclicker*.exe
 a.out
