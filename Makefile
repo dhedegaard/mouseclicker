@@ -1,7 +1,17 @@
-all: build
+CC = g++
+CFLAGS=-c -Wall
+LDFLAGS=-lwinmm
 
-build:
-	g++ mouseclicker.cpp -lwinmm -o mouseclicker.exe -g -Wall
+all: mouseclicker
+
+mouseclicker: mouseclicker.o
+	$(CC) mouseclicker.o $(LDFLAGS) -o mouseclicker.exe
+
+mouseclicker.o:
+	$(CC) $(CFLAGS) mouseclicker.cpp
+
+clean:
+	rm *.o mouseclicker.exe
 
 run:
 	mouseclicker.exe
