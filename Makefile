@@ -4,14 +4,17 @@ LDFLAGS=-lwinmm
 
 all: mouseclicker
 
-mouseclicker: mouseclicker.o
-	$(CC) mouseclicker.o $(LDFLAGS) -o mouseclicker.exe
+mouseclicker: mouseclicker.o mouseclicker.res
+	$(CC) mouseclicker.o mouseclicker.res $(LDFLAGS) -o mouseclicker.exe
 
 mouseclicker.o:
 	$(CC) $(CFLAGS) mouseclicker.cpp
 
+mouseclicker.res:
+	windres mouseclicker.rc -O coff -o mouseclicker.res
+
 clean:
-	rm *.o mouseclicker.exe
+	rm *.o mouseclicker.exe *.res
 
 run:
 	mouseclicker.exe
