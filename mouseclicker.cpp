@@ -25,7 +25,7 @@ int main(int argc, char **argv) {
            milliseconds to sleep. */
         sleep_interval = strtol(argv[1], NULL, 10);
 
-        if (sleep_interval <= 1) {
+        if (sleep_interval < 0) {
             // Fail if below 0 or equal to 1 ms.
             std::cerr << "Sleep too low: " << sleep_interval << std::endl;
             return 1;
@@ -93,10 +93,17 @@ int do_click() {
 
     // Send messages to the window handle, using the position calculated.
     if (!PostMessage(hwndWindow, WM_LBUTTONDOWN, NULL, position)) {
-        std::cerr << "Failed to PostMessage()" << std::endl;
-        return 0;
+        switch (GetLastError()) {
+        case 0x718:  /* Quota exceeded, sleep and ignore. */
+            Sleep(1);
+            break;
+        default:  /* Something weird happened, fail and stop. */
+            std::cerr << "Failed to PostMessage()" << std::endl;
+            return 1;
+        }
+    } else {
+        PostMessage(hwndWindow, WM_LBUTTONUP, NULL, position);
     }
-    PostMessage(hwndWindow, WM_LBUTTONUP, NULL, position);
     return 0;
 }
 
@@ -148,12 +155,12 @@ void handle_input() {
                 std::cout << "quitting!" << std::endl;
                 break;
             case 38:  // VK_UP
-                if (sleep_interval > 1) {
+                if (sleep_interval >= 1) {
                     sleep_interval--;
                     std::cout << "Decreased sleep interval to "
                               << sleep_interval << std::endl;
                 } else {
-                    std::cout << "ERROR: Unable to decrease interval below 1 ms"
+                    std::cout << "ERROR: Unable to decrease interval below 0 ms"
                               << std::endl;
                 }
                 break;
