@@ -94,7 +94,7 @@ int do_click() {
     // Send messages to the window handle, using the position calculated.
     if (!PostMessage(hwndWindow, WM_LBUTTONDOWN, NULL, position)) {
         switch (GetLastError()) {
-        case 0x718:  /* Quota exceeded, sleep and ignore. */
+        case ERROR_NOT_ENOUGH_QUOTA :  /* Quota exceeded, sleep and ignore. */
             Sleep(1);
             break;
         default:  /* Something weird happened, fail and stop. */
