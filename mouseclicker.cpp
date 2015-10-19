@@ -72,6 +72,19 @@ int main(int argc, char **argv) {
     return 0;
 }
 
+
+// Function for handling errors on PostMessage().
+int handle_postmessage_error() {
+    switch (GetLastError()) {
+    case ERROR_NOT_ENOUGH_QUOTA :  // Quota exceeded, sleep and try again later.
+        Sleep(1);
+        return 0;
+    default:  // Something weird happened, fail and stop.
+        std::cerr << "Failed to PostMessage()" << std::endl;
+        return 1;
+    }
+}
+
 // Does the clicking in the Clicker Heroes window.
 int do_click() {
     // Get the dimensions
@@ -93,17 +106,15 @@ int do_click() {
 
     // Send messages to the window handle, using the position calculated.
     if (!PostMessage(hwndWindow, WM_LBUTTONDOWN, NULL, position)) {
-        switch (GetLastError()) {
-        case ERROR_NOT_ENOUGH_QUOTA :  /* Quota exceeded, sleep and ignore. */
-            Sleep(1);
-            break;
-        default:  /* Something weird happened, fail and stop. */
-            std::cerr << "Failed to PostMessage()" << std::endl;
-            return 1;
-        }
+        return handle_postmessage_error();
     } else {
-        PostMessage(hwndWindow, WM_LBUTTONUP, NULL, position);
+        // If the button was successfully clicked, try to release event if it
+        // fails.
+        if (!PostMessage(hwndWindow, WM_LBUTTONUP, NULL, position)) {
+            return handle_postmessage_error();
+        }
     }
+
     return 0;
 }
 
