@@ -1,6 +1,6 @@
 CC = g++
 CFLAGS=-c -Wall
-LDFLAGS=-lwinmm
+LDFLAGS=-lwinmm -static-libgcc -static-libstdc++
 
 all: mouseclicker
 
