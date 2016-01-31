@@ -13,7 +13,7 @@ before_install:
  - sudo apt-get update -qq && sudo apt-get install -yqq wine
 
 script:
- - make CC=i586-mingw32msvc-g++ WINDRES=i586-mingw32msvc-windres
+ - make CC=i586-mingw32msvc-g++ WINDRES=i586-mingw32msvc-windres LDFLAGS=-lwinmm
  - file -i mouseclicker.exe
 
 after_success:
