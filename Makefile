@@ -1,4 +1,5 @@
 CC = g++
+WINDRES = windres
 CFLAGS=-c -Wall
 LDFLAGS=-lwinmm -static-libgcc -static-libstdc++
 
@@ -11,7 +12,7 @@ mouseclicker.o:
 	$(CC) $(CFLAGS) mouseclicker.cpp
 
 mouseclicker.res:
-	windres mouseclicker.rc -O coff -o mouseclicker.res
+	$(WINDRES) mouseclicker.rc -O coff -o mouseclicker.res
 
 clean:
 	rm *.o mouseclicker.exe *.res
